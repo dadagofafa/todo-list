@@ -1,6 +1,7 @@
 //載入express並建構應用程式伺服器
 const express = require('express')
 const mongoose = require('mongoose')
+const exphbs = require('express-handlebars')
 const app = express()
 
 mongoose.connect('mongodb://localhost/todo-list')
@@ -16,9 +17,13 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
+// setting engine
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
+
 //設定首頁路由
 app.get('/', (req, res) => {
-  res.send('Hello, world!')
+  res.render('index')
 })
 
 //設定 port 3000
